@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'wardrobe',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
@@ -48,9 +48,7 @@ class MyAppState extends ChangeNotifier {
       }
     }
       notifyListeners();
-    
   }
-
 }
 
 class MyHomePage extends StatefulWidget {

@@ -1,4 +1,4 @@
-package com.example.wardrobe1
+package com.example.wardrobe
 
 import io.flutter.embedding.android.FlutterActivity
 

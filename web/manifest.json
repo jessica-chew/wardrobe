@@ -1,6 +1,6 @@
 {
-    "name": "wardrobe1",
-    "short_name": "wardrobe1",
+    "name": "wardrobe",
+    "short_name": "wardrobe",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
