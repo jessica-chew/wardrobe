@@ -36,13 +36,19 @@ class MyAppState extends ChangeNotifier {
 
   var favorites = <WordPair>[];
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
+  void toggleFavorite([WordPair? pair]) {
+    if (pair != null) {
+      favorites.remove(pair);
     }
-    notifyListeners();
+    else{
+      if (favorites.contains(current)) {
+        favorites.remove(current);
+      } else {
+        favorites.add(current);
+      }
+    }
+      notifyListeners();
+    
   }
 
 }
@@ -206,7 +212,14 @@ class FavoritesPage extends StatelessWidget {
         ),
         for (var pair in appState.favorites)
           ListTile(
-            leading: Icon(Icons.favorite),
+            leading: IconButton(
+              icon: Icon(Icons.favorite),
+              color: Colors.red,
+              onPressed: () {
+                appState.toggleFavorite(pair);
+              }
+            ),
+            // leading: Icon(Icons.favorite),
             title: Text(pair.asLowerCase),
           ),
       ],
