@@ -69,6 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
     case 1:
       page = FavoritesPage();
       break;
+    case 2:
+      page = RandomOutfitPage();
     default:
       throw UnimplementedError('no widget for $selectedIndex');
 }
@@ -91,6 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       icon: Icon(Icons.favorite),
                       label: Text('Favorites'),
                     ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.girl_outlined),
+                      label: Text("Random Outfit Generator")
+                    )
                   ],
                   selectedIndex: selectedIndex,
                   onDestinationSelected: (value) {
@@ -118,46 +124,34 @@ class _MyHomePageState extends State<MyHomePage> {
 class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
-
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
-
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BigCard(pair: pair),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
-                },
-                icon: Icon(icon),
-                label: Text('Like'),
+        mainAxisSize: MainAxisSize.min, // Aligns the widgets vertically at the center
+        children: <Widget>[
+          Icon(
+            Icons.camera_alt, // Camera icon
+            size: 50.0, // Icon size, adjust as needed
+            color: Theme.of(context).colorScheme.primary, // Icon color, adjust as needed
+          ),
+          SizedBox(height: 8), // Spacing between icon and text
+          ElevatedButton(
+            onPressed: () {
+              print("logging");
+              // Add your action for the button press here
+            },
+            child: Text(
+              'Log it!',
+              style: TextStyle(
+                fontSize: 20.0, // Font size, adjust as needed
               ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next'),
-              ),
-            ],
+            ),
           ),
         ],
       ),
     );
   }
 }
+
 
 
 class BigCard extends StatelessWidget {
@@ -221,6 +215,50 @@ class FavoritesPage extends StatelessWidget {
             title: Text(pair.asLowerCase),
           ),
       ],
+    );
+  }
+}
+
+class RandomOutfitPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var pair = appState.current;
+
+    IconData icon;
+    if (appState.favorites.contains(pair)) {
+      icon = Icons.favorite;
+    } else {
+      icon = Icons.favorite_border;
+    }
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          BigCard(pair: pair),
+          SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  appState.toggleFavorite();
+                },
+                icon: Icon(icon),
+                label: Text('Like'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
