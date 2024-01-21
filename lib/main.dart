@@ -1,6 +1,8 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -75,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
       throw UnimplementedError('no widget for $selectedIndex');
 }
 
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
@@ -121,37 +122,47 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 
-class GeneratorPage extends StatelessWidget {
+class GeneratorPage extends StatefulWidget {
+  @override
+  State<GeneratorPage> createState() => _GeneratorPageState();
+}
+
+class _GeneratorPageState extends State<GeneratorPage> {
+  File? _image;
+
+  Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min, // Aligns the widgets vertically at the center
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(
-            Icons.camera_alt, // Camera icon
-            size: 50.0, // Icon size, adjust as needed
-            color: Theme.of(context).colorScheme.primary, // Icon color, adjust as needed
+            Icons.camera_alt,
+            size: 50.0,
+            color: Theme.of(context).colorScheme.primary,
           ),
-          SizedBox(height: 8), // Spacing between icon and text
+          SizedBox(height: 8),
           ElevatedButton(
-            onPressed: () {
-              print("logging");
-              // Add your action for the button press here
-            },
-            child: Text(
-              'Log it!',
-              style: TextStyle(
-                fontSize: 20.0, // Font size, adjust as needed
-              ),
-            ),
+            onPressed: _pickImage,
+            child: Text('Log it!'),
           ),
+          if (_image != null) 
+            Image.file(_image!),
         ],
       ),
     );
   }
 }
-
 
 
 class BigCard extends StatelessWidget {
